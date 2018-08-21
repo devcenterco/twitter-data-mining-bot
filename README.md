@@ -2,44 +2,65 @@
 
 ### Devcenter Backend Developer Test I
 
-The purpose of this test is not only to quickly gauge an applicant's abilities with writing codes, but also their approach to development.
+### Laravel Twitter Bot: 
 
-Applicants may use whatever language they want to achieve the outcome.
+Pulls name and followers count based on filtered hashtag and stores it on google spreadsheet.
 
-## Task
+### Prerequisites
+To run this project, your server must satisfy the following requirements
+* PHP >= 7.1.3
+* OpenSSL PHP Extension
+* PDO PHP Extension
+* Mbstring PHP Extension
 
-Build a bot that extracts the following from people’s Twitter bio (on public/open accounts), into a Google spreadsheet:
+## How to install and run the project
 
-* Twitter profile name 
-* Number of followers
+### Clone and run composer install
+1. From a terminal and within a directory of choice run git clone git url
+```
+git clone https://github.com/adewaleadeoye/laravel-twitter-bot.git
+```
+2. cd into laravel-twitter-bot and run composer install
+```
+laravel-twitter-bot> composer install
+```
+### Create a Twitter App
+Go to https://developer.twitter.com/en/apply/user and setup a twitter app. Once you've created your application, click on the Keys and access tokens tab to retrieve your consumer_key, consumer_secret, access_token and access_token_secret. We will need them later
 
-Target accounts using these criteria:
-* Based on hashtags used
-* Based on number of followers; Between 1,000 - 50,000
+### Enable Google Drive API and Create new Spreadsheet
+#### Enable the Google drive API by following the steps below
+![Enable Google Drive API](https://s3.amazonaws.com/com.twilio.prod.twilio-docs/original_images/google-developer-console.gif)
+- Go to the Google APIs Console. https://console.developers.google.com/
+- Create a new project.
+- Click Enable API. Search for and enable the Google Drive API.
+- Create credentials for a Web Server to access Application Data.
+- Name the service account and grant it a Project Role of Editor. Copy the generated email address somewhere.   it will be needed later
+- Download the JSON file.
+- Copy the JSON file to the project's root directory
+#### Create spreadsheet
+- Create a google spreadsheet. Go to https://docs.google.com/spreadsheets
+- Rename Spreadsheet
+- Click on share and give edit permission to the service account email you copied earlier.
 
-The bot is suppose to maintain a session and continously listen to the predefined hashtag
+### Set Environment variables
+- Open .env file at the root of your project. If it doesn't exist, make a copy of .env.example and rename as .env
+- Set up the following variables.
+```
+TWITTER_CONSUMER_KEY=twitter consumer key
+TWITTER_CONSUMER_SECRET=twitter consumer secret
+TWITTER_ACCESS_TOKEN=twitter access token
+TWITTER_ACCESS_TOKEN_SECRET=twitter access token secret
 
-## How to complete the task
+GOOGLE_APPLICATION_CREDENTIALS=name of downloaded json file 
+GOOGLE_SPREADSHEET_FILENAME=name of spreadsheet you created
 
-1. Fork this repository into your own public repo.
-
-2. Complete the project and commit your work. Make a screencast of how it works with the googlespread sheet and progam side-by-side. Please watch this sample video to see what your screencast should look like https://youtu.be/mwBqUUtBtlE
-
-3. Send the URL of your own repository and the screencast to @kolawole.balogun on the Slack here bit.ly/dcs-slack.
-
-## Show your working
-
-If you choose to use build tools to compile your CSS and Javascript (such as SASS of Coffescript) please include the original files as well. You may update this README file outlining the details of what tools you have used.
-
-## Clean code
-
-This fictitious project is part of a larger plan to reuse templates for multiple properties. When authoring your CSS ensure that it is easy for another developer to find and change things such as fonts and colours.
-
-
-## Good luck!
-
-We look forward to seeing what you can do. Remember, although it is a test, there are no specific right or wrong answers that we are looking for - just do the job as best you can. Any questions - create an issue in the panel on the right (requires a Github account).
+Ensure QUEUE_DRIVER=sync
+```
+After completing the setup,
+```
+Run php artisan twitter:stream from the terminal and type in an hashtag at the prompt
+```
 
 
-## Demo
-![screen shot](https://user-images.githubusercontent.com/8668661/33088863-330b4250-ceef-11e7-9e9c-b4fd9ca299d8.gif)
+
+
